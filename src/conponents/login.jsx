@@ -6,28 +6,34 @@ import apis from "../service/apis";
 import { useDispatch } from 'react-redux'
 import { loginInfo } from "./loginSlice";
 import { useNavigate } from "react-router-dom";
-export default function Login() {
+export default function Login(props) {
+
     let emailBox = useRef();
     let passwordBox = useRef();
     // const [msg, setmsg] = useState("");
     let dispatch = useDispatch();
     let navigate = useNavigate();
     let islogin = async (event) => {
-        // props.setProgress(0);
+        props.setProgress(0);
         event.preventDefault();
         let obj = {
             email: emailBox.current.value,
             password: passwordBox.current.value
         }
-        // props.setProgress(30);
+        
+        let i=5
+        while(i<95){
+            props.setProgress(i);
+            i+=10
+        }
         let response = await WebMethod.postapi(apis.LOGINAPI, obj);
         console.log(response)
         if (response.data.status) {
-            dispatch(loginInfo({ name: response.data.data.name, token: response.data.data.token, isLogin: true }))
+            dispatch(loginInfo({ name: response.data.data.name, token: response.data.data.token, isLogin: true ,image:response.data.data.image}))
             // { setmsg(response.data.message) }
             navigate("/profile")
         }
-        // props.setProgress(100);
+        props.setProgress(100);
     }
     return <>
         <div className="d-flex justify-content-center align-items-center" style={{ backgroundImage: `url("./assets/img/loginpage2.jpeg")`, height: "100vh", backgroundRepeat: "no-repeat",backgroundSize:"cover" }}>

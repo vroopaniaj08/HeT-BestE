@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 let loginStatus = () => {
-    let obj = {name:undefined,token:undefined,isLogin:false}
+    let obj = {name:undefined,token:undefined,isLogin:false,image:null}
     let result = localStorage.getItem("loginObj")
     if(result !== null){
         result = JSON.parse(result);
