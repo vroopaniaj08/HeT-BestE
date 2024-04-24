@@ -21,7 +21,7 @@ export default function Profile() {
         let response = await webMethod.getapi(apis.LOGININFOAPIS,userData.token);
         if(response.data.data.image !== null){
             {setimage(response.data.data.image)}
-            dispatch(loginInfo({name:userData.name,token:userData.token,isLogin:userData.isLogin,image:response1.data.data.image}))
+            dispatch(loginInfo({name:userData.name,token:userData.token,isLogin:userData.isLogin,image:response.data.data.image}))
         }
         // console.log(response);
     }
@@ -60,17 +60,17 @@ export default function Profile() {
     }
 
     // change password
-    let doneupdate = async(event) =>{
-        event.preventDefault();
-        let obj = {
-            "old_password":oldBox.current.value,
-            "new_password":newBox.current.value
-        }
-        let response = await webMethod.putapiwithtoken(apis.USERCHANGEPASSWORD,obj,userData.token)
-        console.log(response)
-        {setresetmsg(response.data.message)}
-        event.target.reset();
-    }
+    // let doneupdate = async(event) =>{
+    //     event.preventDefault();
+    //     let obj = {
+    //         "old_password":oldBox.current.value,
+    //         "new_password":newBox.current.value
+    //     }
+    //     let response = await webMethod.putapiwithtoken(apis.USERCHANGEPASSWORD,obj,userData.token)
+    //     console.log(response)
+    //     {setresetmsg(response.data.message)}
+    //     event.target.reset();
+    // }
     
     return <>
         <div className="" style={{ padding: "130px", backgroundImage: `url("./assets/img/profilePhoto.jpeg")`, height: "100vh", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
@@ -90,37 +90,6 @@ export default function Profile() {
                         Reset Password
                     </button>&nbsp;&nbsp;&nbsp;
                     {resetmsg}
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Format Password</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    <form onSubmit={doneupdate}>
-                            <div className="row mt-3">
-                                <div className="col-md-12">
-                                    <input type="text" ref={oldBox} className="form-control" placeholder="Enter old password here"></input>
-                                    <input type="text" ref={idBox} className="form-control d-none" placeholder="Enter id here"></input>
-                                </div>
-                            </div>
-                            <div className="row mt-3">
-                                <div className="col-md-12">
-                                    <input type="text" ref={newBox} className="form-control" placeholder="Enter new password here"></input>
-                                </div>
-                            </div>
-                            <div className="row mt-3">
-                                <div className="col-md-12">
-                                    <button type="submit" data-bs-dismiss="modal" className="btn btn-primary w-50">Reset Detail</button> &nbsp;&nbsp;&nbsp;
-                                    {/* {msg} */}
-                                </div>
-                            </div>
-                        </form>
-                    </div> 
                 </div>
             </div>
         </div>
