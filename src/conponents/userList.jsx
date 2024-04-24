@@ -16,23 +16,25 @@ export default function UserList(){
         {setList(response.data.data)}
     }
     return <>
-        <div className="container">
-        <table className="table table-striped-row table-hover" style={{marginTop:"130px"}}>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>NAME</th>
-                    <th>EMAIL</th>
-                </tr>
-            </thead>
-            <tbody>
-            {userlist.map(obj=><tr>
-                <td>{obj.id}</td>
-                <td>{obj.name}</td>
-                <td>{obj.email}</td>
-            </tr>)}
-            </tbody>
-        </table>
+        <div className="container-fluid" style={{maxHeight:"95vh",overflowY:"scroll"}}>
+        <div className="row" style={{
+            marginTop:"130px"
+        }}>
+            <div className="col-md-2">
+                <ul style={{listStyle:"none"}}>
+
+                {userlist.map(obj=><li>{obj.name}</li>)
+
+                }
+                </ul>
+            </div>
+            <div className="col-md-4 offset-1 bg-danger">
+
+            </div>
+            <div className="col-md-4 offset-1 bg-danger">
+
+            </div>
+        </div>
         </div>
         {/* <table class="table table-dark table-hover">
 

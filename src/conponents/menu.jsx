@@ -7,7 +7,7 @@ function Menu() {
     let navigate = useNavigate();
     let logout = (event) => {
         event.preventDefault();
-        dispatch(loginInfo({name:undefined,token:undefined,isLogin:false}))
+        dispatch(loginInfo({name:undefined,token:undefined,isLogin:false,image:null}))
         navigate("/")
     }
     return <>
@@ -35,9 +35,11 @@ function Menu() {
 
                         <nav id="navmenu" className="navmenu">
                             {loginStatus.isLogin?<ul>
-                                <li><Link to="/profile">View Profile</Link></li>
-                                <li><Link to="/userlist">User List</Link></li>
+                                <li><Link to="/userlist">UserList</Link></li>
                                 <li><Link onClick={logout}>Logout</Link></li>
+                                    <li><Link to="/profile"><div className="rounded-circle" style={{height:"30px",width:"30px"}}>
+                                    <img className = "w-100 h-100 rounded-circle" src={loginStatus.image}></img>
+                                    </div></Link></li>
                             </ul>
                             :
                             <ul>

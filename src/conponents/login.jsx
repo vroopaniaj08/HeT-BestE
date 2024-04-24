@@ -24,7 +24,7 @@ export default function Login(props) {
         let i=5
         while(i<95){
             props.setProgress(i);
-            i+=10
+            i+=1
         }
         let response = await WebMethod.postapi(apis.LOGINAPI, obj);
         console.log(response)

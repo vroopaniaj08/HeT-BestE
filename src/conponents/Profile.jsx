@@ -12,6 +12,7 @@ export default function Profile() {
     let idBox = useRef()
     let dispatch = useDispatch(); 
     const [image, setimage] = useState("./assets/img/default.jpg")
+    const [resetmsg,setresetmsg ] = useState("")
     useEffect(()=>{
         loginDetail()
     },[])
@@ -20,9 +21,12 @@ export default function Profile() {
         let response = await webMethod.getapi(apis.LOGININFOAPIS,userData.token);
         if(response.data.data.image !== null){
             {setimage(response.data.data.image)}
+            dispatch(loginInfo({name:userData.name,token:userData.token,isLogin:userData.isLogin,image:response1.data.data.image}))
         }
-        console.log(response);
+        // console.log(response);
     }
+
+
     let uploadpic = async (event) => {
         event.preventDefault();
         imageBox.current.click();
@@ -34,20 +38,38 @@ export default function Profile() {
         
         try {
             let response = await webMethod.putapiWithData(apis.USERUPLOADPIC, profileImage, userData.token);
-            console.log(response);
+            if(response.data.status){
+                let response1 = await webMethod.getapi(apis.LOGININFOAPIS,userData.token)
+                console.log(response1)
+                {setimage(response1.data.data.image)}
+                dispatch(loginInfo({name:userData.name,token:userData.token,isLogin:userData.isLogin,image:response1.data.data.image}))
+            }
+            // console.log(response);
         } catch (error) {
             console.error("Error uploading image:", error);
         }
     }
+
+    // upload image 
     let functionimage = (event) => {
         event.preventDefault()
         let firstFile = event.target.files[0];
         console.log(firstFile);
         dispatch(loginInfo({name:userData.name,token:userData.token,isLogin:userData.isLogin,image:URL.createObjectURL(firstFile)}))
-        {setimage(URL.createObjectURL(firstFile))};
+        // {setimage(URL.createObjectURL(firstFile))};
     }
-    let doneupdate = () =>{
 
+    // change password
+    let doneupdate = async(event) =>{
+        event.preventDefault();
+        let obj = {
+            "old_password":oldBox.current.value,
+            "new_password":newBox.current.value
+        }
+        let response = await webMethod.putapiwithtoken(apis.USERCHANGEPASSWORD,obj,userData.token)
+        console.log(response)
+        {setresetmsg(response.data.message)}
+        event.target.reset();
     }
     
     return <>
@@ -66,7 +88,8 @@ export default function Profile() {
                     <p>{userData.name}</p>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Reset Password
-                    </button>
+                    </button>&nbsp;&nbsp;&nbsp;
+                    {resetmsg}
                 </div>
             </div>
         </div>
@@ -92,7 +115,7 @@ export default function Profile() {
                             </div>
                             <div className="row mt-3">
                                 <div className="col-md-12">
-                                    <button type="submit" className="btn btn-primary w-50">Reset Detail</button> &nbsp;&nbsp;&nbsp;
+                                    <button type="submit" data-bs-dismiss="modal" className="btn btn-primary w-50">Reset Detail</button> &nbsp;&nbsp;&nbsp;
                                     {/* {msg} */}
                                 </div>
                             </div>
