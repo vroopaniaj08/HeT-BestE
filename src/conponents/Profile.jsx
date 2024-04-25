@@ -7,17 +7,18 @@ export default function Profile() {
 
     let userData = useSelector(state => state.userLoginStore.value)
     let imageBox = useRef();
-    let oldBox = useRef();
-    let newBox = useRef();
-    let idBox = useRef()
     let dispatch = useDispatch(); 
     const [image, setimage] = useState("./assets/img/default.jpg")
     const [resetmsg,setresetmsg ] = useState("")
+    const [userpostlist,setp] = useState([])
     useEffect(()=>{
         loginDetail()
+        loginuserpostlist()
+        
     },[])
     let loginDetail = async() =>{
-        console.log(apis.LOGININFOAPIS)
+        console.log("this is login info",apis.LOGININFOAPIS)
+        console.log("this is login user post list",apis.LOGINUSERPOSTLIST)
         let response = await webMethod.getapi(apis.LOGININFOAPIS,userData.token);
         if(response.data.data.image !== null){
             {setimage(response.data.data.image)}
@@ -71,6 +72,13 @@ export default function Profile() {
     //     {setresetmsg(response.data.message)}
     //     event.target.reset();
     // }
+    let loginuserpostlist = async() =>{
+        console.log(apis.LOGINUSERPOSTLIST)
+        let response = await webMethod.getapi(apis.LOGINUSERPOSTLIST,userData.token)
+        console.log(response)
+        
+        {setp(response.data.data)}
+    }
     
     return <>
         <div className="" style={{ padding: "130px", backgroundImage: `url("./assets/img/profilePhoto.jpeg")`, height: "100vh", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
@@ -86,11 +94,32 @@ export default function Profile() {
                 </div>
                 <div className="col-md-6 offset-2">
                     <p>{userData.name}</p>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    {/* <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Reset Password
-                    </button>&nbsp;&nbsp;&nbsp;
+                    </button>&nbsp;&nbsp;&nbsp; */}
                     {resetmsg}
                 </div>
+            </div>
+            <div  className="row my-2 p-3" style={{ backgroundColor: `rgba(255,255,255,0.7)`, borderRadius: "10px" }}>
+                    {
+                        userpostlist.map(obj=><div>
+                            <div className="p-2">
+                <div className="d-flex align-items-center justify-content-end">
+                    {/* <div>{obj.name}</div> */}
+                    <div>{obj.postdate}</div>
+                </div>
+                <p>{obj.message}</p>
+                {obj.postfile?
+                <div style={{width:"300px",height:"200px",borderRadius:"10px"}} >
+                    <img src={obj.postfile} className="w-100 h-100" style={{borderRadius:"10px"}}></img>
+                </div>
+                :
+                ""
+                }
+                
+            </div>
+                            </div>)
+                    }
             </div>
         </div>
     </>

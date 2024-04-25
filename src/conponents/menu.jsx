@@ -1,7 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { loginInfo } from './loginSlice'
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
+import { useState } from "react"
+import webMethod from "../service/webMethod"
+import apis from "../service/apis"
 function Menu() {
     let loginStatus = useSelector(state=>state.userLoginStore.value)
     let dispatch = useDispatch();
@@ -9,6 +12,22 @@ function Menu() {
     let oldBox = useRef();
     let newBox = useRef();
     let idBox = useRef()
+    const [image,setimage] = useState(loginStatus.image)
+
+    useEffect(()=>{
+        loginDetail()
+    },[])
+
+    let loginDetail = async() =>{
+        console.log(apis.LOGININFOAPIS)
+        let response = await webMethod.getapi(apis.LOGININFOAPIS,loginStatus.token);
+        if(response.data.data.image !== null){
+            {setimage(response.data.data.image)}
+            dispatch(loginInfo({name:loginStatus.name,token:loginStatus.token,isLogin:loginStatus.isLogin,image:response.data.data.image}))
+        }
+        // console.log(response);
+    }
+
     let logout = (event) => {
         event.preventDefault();
         dispatch(loginInfo({name:undefined,token:undefined,isLogin:false,image:null}))
@@ -53,12 +72,11 @@ function Menu() {
                                 <li><Link to="/userlist">UserList</Link></li>
                                 <li><Link onClick={logout}>Logout</Link></li>
                                     <li className="dropdown show"><Link to="/profile" className="dropdown-toggle" role="" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><div className="rounded-circle" style={{height:"30px",width:"30px"}}>
-                                    <img className = "w-100 h-100 rounded-circle" src={loginStatus.image}></img>
+                                    <img className = "w-100 h-100 rounded-circle" src={image}></img>
                                     </div></Link>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <Link class="dropdown-item" to="/profile">Profile</Link>
-                                        <Link class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Another action</Link>
-                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
+                                        <Link class="dropdown-item" to="/profile" style={{color:"black"}}>Profile</Link>
+                                        <button type= "button" className = "btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{color:"black"}}>reset password</button>
                                     </div></li>
                             </ul>
                             :
@@ -73,7 +91,7 @@ function Menu() {
                             }
                             <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
                         </nav>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  style={{}}>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -104,6 +122,23 @@ function Menu() {
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
                     </div>
                 </div>
                 

@@ -22,7 +22,7 @@ export default function Login(props) {
         }
         
         let i=5
-        while(i<95){
+        while(i<75){
             props.setProgress(i);
             i+=1
         }
@@ -31,7 +31,7 @@ export default function Login(props) {
         if (response.data.status) {
             dispatch(loginInfo({ name: response.data.data.name, token: response.data.data.token, isLogin: true ,image:response.data.data.image}))
             // { setmsg(response.data.message) }
-            navigate("/profile")
+            navigate("/userlist")
         }
         props.setProgress(100);
     }
