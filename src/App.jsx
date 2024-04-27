@@ -12,6 +12,7 @@ import Register from './conponents/register'
 import Profile from './conponents/Profile'
 import UserList from './conponents/userList'
 import LoadingBar from 'react-top-loading-bar'
+import Teams from './conponents/teams'
 // import { useState } from 'react'
 function App() {
   const [progress,setprogress] = useState(0)
@@ -26,6 +27,7 @@ function App() {
         <Route exact path='/register' setProgress = {setprogress} element = {<Register></Register>}></Route>
         <Route exact path='/profile' setProgress = {setprogress} element = {<Profile></Profile>}></Route>
         <Route exact path='/userlist' setProgress = {setprogress} element = {<UserList></UserList>}></Route>
+        <Route exact path='/team' setProgress = {setprogress} element = {<Teams></Teams>}></Route>
       </Routes>
       <LoadingBar 
         color='#f11946'
