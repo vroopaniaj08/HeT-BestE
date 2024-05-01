@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import webMethod from "../service/webMethod";
 import apis from "../service/apis";
 import { useSelector } from "react-redux";
@@ -7,6 +7,7 @@ export default function Post(){
     let userData = useSelector(state=>state.userLoginStore.value)
     let postBox = useRef()
     let imageBox = useRef();
+    const [pict,setpict] = useState("")
     let addPost= async(event)=>{
         // props.setProgress(0);
         event.preventDefault();
@@ -25,19 +26,30 @@ export default function Post(){
             console.log(error)
         }
     }
+    let showimage = (event)=>{
+        event.preventDefault()
+        let image = event.target.files[0]
+        console.log(image)
+        {setpict(URL.createObjectURL(image))};
+    }
     return<>
         <div className="d-flex justify-content-center align-items-center" style={{ backgroundImage: `url("./assets/img/loginpage2.jpeg")`, height: "100vh", backgroundRepeat: "no-repeat",backgroundSize:"cover" }}>
-<div className="container p-4 w-50" style={{ height: "fit-content", boxShadow: '1px 2px 4px 2px rgba(0, 0, 0, 0.3)', borderRadius: "10px",backgroundColor:`rgba(255,255,255,0.5)` }}>
+<div className="container p-4 w-25" style={{ height: "fit-content", boxShadow: '1px 2px 4px 2px rgba(0, 0, 0, 0.3)', borderRadius: "10px",backgroundColor:`rgba(255,255,255,0.5)` }}>
     <h3 className='text-center'>Add Post</h3>
     <form onSubmit={addPost}>
         <div className="row mt-3">
             <div className="col-md-12">
-                <input type="text" ref={postBox} required className="form-control" placeholder="Enter email here" style={{backgroundColor:`rgba(255,255,255,0.7)`}}></input>
+                <div className="W-100 text-center">
+                <label htmlFor="postimage" className="bi bi-images bg-white p-3 rounded" style={{cursor:"pointer"}}>Upload
+                <img src={pict} style={{backgroundRepeat:"no-repeat",backgroundSize:"cover"}}></img>
+                </label>
+                </div>
+                <input type="file" id = "postimage" ref={imageBox} onChange={showimage} className="form-control d-none" placeholder="Enter Password here"  style={{backgroundColor:`rgba(255,255,255,0.7)`}}></input>
             </div>
         </div>
         <div className="row mt-3">
             <div className="col-md-12">
-                <input type="file"  ref={imageBox} className="form-control" placeholder="Enter Password here"  style={{backgroundColor:`rgba(255,255,255,0.7)`}}></input>
+                <textarea type="text" ref={postBox} required className="form-control" placeholder="Enter message" style={{backgroundColor:`rgba(255,255,255,0.7)`}}></textarea>
             </div>
         </div>
         <div className="row mt-3">
