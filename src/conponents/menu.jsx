@@ -70,6 +70,7 @@ function Menu() {
                         <nav id="navmenu" className="navmenu">
                             {loginStatus.isLogin?<ul>
                                 <li><Link to="/userlist">UserList</Link></li>
+                                <li><Link to="/addpost">Add Post</Link></li>
                                 <li><Link onClick={logout}>Logout</Link></li>
                                     <li className="dropdown show"><Link to="/profile" className="dropdown-toggle" role="" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><div className="rounded-circle" style={{height:"30px",width:"30px"}}>
                                     <img className = "w-100 h-100 rounded-circle" src={image}></img>

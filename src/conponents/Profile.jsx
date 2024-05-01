@@ -81,7 +81,7 @@ export default function Profile() {
     }
     
     return <>
-        <div className="" style={{ padding: "130px", backgroundImage: `url("./assets/img/profilePhoto.jpeg")`, height: "100vh", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
+        <div className="" style={{ padding: "130px", backgroundImage: `url("./assets/img/profilePhoto.jpeg")`, height: "fit-content", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
             <div className="row my-2 p-3" style={{ backgroundColor: `rgba(255,255,255,0.7)`, borderRadius: "10px" }}>
                 <div className="col-md-4">
                     <form onChange={uploadpic}>

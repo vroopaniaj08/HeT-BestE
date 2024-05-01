@@ -13,6 +13,14 @@ class WebMethod{
     postapi(url,data){
         return axios.post(url,data);
     }
+    postapiwithtoken(url,data,token){
+      return axios.post(url,data,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  }
     putapiWithData(url,data,token){
       // console.log("hello")
       return axios.put(url, data, {
