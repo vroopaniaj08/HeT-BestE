@@ -1,9 +1,10 @@
 import webMethod from "../service/webMethod";
 import apis from "../service/apis";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 export default function UserPosts(){
     let userData = useSelector(state=>state.userLoginStore.value)
+    let commentBox = useRef()
     const [postlist,setpostlist] = useState([]);
     useEffect(()=>{
         posts()
@@ -13,11 +14,19 @@ export default function UserPosts(){
         console.log(response);
         {setpostlist(response.data.data)}
     }
-    let commet = async() =>{
 
+    // comment
+    let commet = async(index) =>{
+        let obj = {
+            "comment":commentBox.current.value,
+            "post":index
+        }
+        let response = await webMethod.postapiwithtoken(apis.COMMENTSAVE,obj,userData.token)
+        console.log(response)
     }
+
     return <>
-            {postlist.map(obj=>
+            {postlist.map((obj)=>
             <div className="p-2">
                 <div className="d-flex align-items-center justify-content-between">
                     <div>{obj.postBy.name}</div>
@@ -32,8 +41,8 @@ export default function UserPosts(){
                 ""
                 }
                 <div className="d-flex align-item-center justify-content-between">
-                <input type = "text" placeholder = "Commet......." className="form-control my-2"></input>
-                <button onClick={commet}className="btn btn-danger">post</button>
+                <input type = "text" ref={commentBox} placeholder = "Commet......." className="form-control my-2"></input>
+                <button onClick={()=>commet(obj.id)}className="btn btn-danger">post</button>
                 </div><hr></hr>
             </div>)}
     </>

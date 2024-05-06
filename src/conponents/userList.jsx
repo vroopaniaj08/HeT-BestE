@@ -26,7 +26,7 @@ export default function UserList(){
             <div className="col-md-2">
                 <Uploadsitemap></Uploadsitemap>
             </div>
-            <div className="col-md-5 bg-secondary mx-5" style={{maxHeight:"85vh",overflowY:"scroll",border:"1px solid black"}}>
+            <div className="col-md-5 mx-5" style={{maxHeight:"85vh",overflowY:"scroll"}}>
                 <UserPosts></UserPosts>
             </div>
             <div className="col-md-3 bg-danger mx-5" style={{maxHeight:"45vh"}}>

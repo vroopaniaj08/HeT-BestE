@@ -2,11 +2,13 @@ import { useRef, useState } from "react"
 import webMethod from "../service/webMethod";
 import apis from "../service/apis";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Post(){
     let userData = useSelector(state=>state.userLoginStore.value)
     let postBox = useRef()
     let imageBox = useRef();
+    const navigate =  useNavigate()
     const [pict,setpict] = useState("")
     let addPost= async(event)=>{
         // props.setProgress(0);
@@ -21,10 +23,14 @@ export default function Post(){
             let response = await webMethod.postapiwithtoken(apis.USERPOSTSAVE,picture,userData.token)
             // props.setProgress(100)
             console.log(response)
+            {setpict("")}
+            navigate('/userlist')
+
         }
         catch(error){
             console.log(error)
         }
+
     }
     let showimage = (event)=>{
         event.preventDefault()
@@ -40,9 +46,13 @@ export default function Post(){
         <div className="row mt-3">
             <div className="col-md-12">
                 <div className="W-100 text-center">
-                <label htmlFor="postimage" className="bi bi-images bg-white p-3 rounded" style={{cursor:"pointer"}}>Upload
-                <img src={pict} style={{backgroundRepeat:"no-repeat",backgroundSize:"cover"}}></img>
-                </label>
+                    <label htmlFor="postimage" className="bi bi-images bg-white p-3 rounded" style={{cursor:"pointer"}}>Upload
+                    </label>
+                    {pict?
+                        <img src={pict} className = "h-75 w-75" style={{backgroundRepeat:"no-repeat",backgroundSize:"cover"}}></img>
+                        :
+                        ""
+                    }
                 </div>
                 <input type="file" id = "postimage" ref={imageBox} onChange={showimage} className="form-control d-none" placeholder="Enter Password here"  style={{backgroundColor:`rgba(255,255,255,0.7)`}}></input>
             </div>
